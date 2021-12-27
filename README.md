@@ -1,4 +1,5 @@
-# Welcome to glivera-webpack-boilerplate
+# Welcome to Glivera Team Wordpress Webpack Boilerplate
+
 
 ## Get started
 
@@ -19,3 +20,8 @@
 	 	npm run dev -  File watching + server
 	 	npm run dev-build - Build (development mode) + file watching 
 	 	npm run build - Build (production mode)
+
+5. Build WordPress Files wp_files=>wp-content=>themes=>mytheme
+
+	step 1: npm run build
+	step 2: npm run wp-build
