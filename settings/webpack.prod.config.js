@@ -15,7 +15,7 @@ module.exports = merge(webpackConfiguration, {
 
 	output: {
 		path: environment.paths.output,
-		filename: 'js/[name].[contenthash].bundle.js',
+		filename: 'js/[name].bundle.js',
 	},
 
 	module: {
@@ -54,7 +54,7 @@ module.exports = merge(webpackConfiguration, {
 	plugins: [
 		// Extracts CSS into separate files
 		new MiniCssExtractPlugin({
-			filename: 'css/[name].[contenthash].css',
+			filename: 'css/[name].css',
 			chunkFilename: '[id].css',
 		}),
 		new ImageMinimizerPlugin({
