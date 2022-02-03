@@ -119,6 +119,45 @@ class MTDUtils {
 
 		return $menu;
 	}
+
+	/**
+	 * Display <picture> element with <source> and <img> tag.
+	 *
+	 * @param $source Required. Array of images.
+	 * @param null $attr Optional. Array of attributes. Default empty.
+	 *
+	 * @return string|false
+	 * @since 2022-02-03
+	 */
+	public static function the_picture( $source, $attr = null ) {
+		if ( ! empty( $source ) ) {
+			if ( ! empty( $attr ) && array_key_exists( 'class', $attr ) ) {
+				$out = '<picture class="' . $attr['class'] . '">';
+			} else {
+				$out = '<picture class="picture">';
+			}
+
+			// get <img> class
+			if ( ! empty( $attr ) && array_key_exists( 'img_class', $attr ) ) {
+				$img_class = 'class="' . $attr['img_class'] . '"';
+			} else {
+				$img_class = '';
+			}
+
+			if ( ! empty( $source['desktop']['image_webp'] ) ) {
+				$out .= '<source srcset="' . esc_url( $source['desktop']['image_webp'] ) . '" type="image/webp">';
+			}
+
+			if ( ! empty( $source['desktop']['image'] ) ) {
+				$out .= '<img ' . $img_class . 'src="' . esc_url( $source['desktop']['image']['url'] ) . '" alt="' . esc_attr( $source['desktop']['image']['alt'] ) . '" />';
+			}
+			$out .= '</picture>';
+
+			echo $out;
+		} else {
+			return false;
+		}
+	}
 }
 
 // Initialization
