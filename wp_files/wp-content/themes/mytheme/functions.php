@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Preventing caching scripts and styles.
+ */
+define( 'ASSETS_VERSION', time() );
+
 require_once ( TEMPLATEPATH . '/inc/MTDUtils.php' );
 require_once ( TEMPLATEPATH . '/inc/wp_custom_menu_walker.php' );
 
@@ -48,8 +53,8 @@ function register_styles() {
 	$global_styles = get_template_directory_uri() . '/styles/app.css';
 	$styles        = get_template_directory_uri() . '/style.css';
 
-	wp_register_style( 'theme_styles', $global_styles, false, hash_file( 'crc32', $global_styles ) );
-	wp_register_style( 'custom_styles', $styles, false, hash_file( 'crc32', $styles ) );
+	wp_register_style( 'theme_styles', $global_styles, false, ASSETS_VERSION );
+	wp_register_style( 'custom_styles', $styles, false, ASSETS_VERSION );
 
 
 	wp_enqueue_style( 'theme_styles' );
@@ -66,7 +71,7 @@ function register_scripts() {
 	wp_deregister_script( 'jquery' );
 
 	wp_register_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js', false, '1.0.0', true );
-	wp_register_script( 'main', $main_js, array('jquery'), hash_file('crc32', $main_js ), true );
+	wp_register_script( 'main', $main_js, array('jquery'), ASSETS_VERSION, true );
 
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'main' );
@@ -80,10 +85,9 @@ function theme_setup() {
 	add_theme_support( 'menus' );
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
-//	add_theme_support( 'post-formats', array(
-//		'image',
-//		'gallery'
-//	) );
+	add_theme_support( 'html5', array(
+		'search-form'
+	) );
 
 	add_action( 'wp_enqueue_scripts', 'register_styles' );
 	add_action( 'wp_enqueue_scripts', 'register_scripts' );
@@ -116,8 +120,7 @@ if( function_exists('acf_add_options_page') ) {
  * Add viewport metateg
  */
 
-function set_viewport()
-{
+function set_viewport() {
 	?>
 	<meta name="viewport" content="width=device-width" />
 	<?php
