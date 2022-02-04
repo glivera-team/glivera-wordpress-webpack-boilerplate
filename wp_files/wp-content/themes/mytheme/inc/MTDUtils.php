@@ -144,11 +144,24 @@ class MTDUtils {
 				$img_class = '';
 			}
 
+			true == $source['toggle'] ? $desktop_media = 'media="(min-width:'. $source['screens']['min_width'] .'px)"' : $desktop_media = '';
+			true == $source['toggle'] ? $mobile_media = 'media="(max-width:'. $source['screens']['max_width'] .'px)"' : $mobile_media = '';
+
 			if ( ! empty( $source['desktop']['image_webp'] ) ) {
-				$out .= '<source srcset="' . esc_url( $source['desktop']['image_webp'] ) . '" type="image/webp">';
+				$out .= '<source ' . $desktop_media . ' srcset="' . esc_url( $source['desktop']['image_webp'] ) . '" type="image/webp">';
+			}
+
+			if ( true == $source['toggle'] && ! empty( $source['mobile']['image_webp'] ) ) {
+				$out .= '<source ' . $mobile_media . ' srcset="' . esc_url( $source['mobile']['image_webp'] ) . '" type="image/webp">';
+			}
+
+			if ( true == $source['toggle'] && ! empty( $source['mobile']['image'] ) ) {
+				$out .= '<source ' . $mobile_media . ' srcset="' . esc_url( $source['mobile']['image']['url'] ) . '" type="' . $source['mobile']['image']['mime_type'] . '">';
 			}
 
 			if ( ! empty( $source['desktop']['image'] ) ) {
+				true == $source['toggle'] ?: $out .= '<source ' . $desktop_media . ' srcset="' . esc_url( $source['desktop']['image']['url'] ) . '" type="' . $source['desktop']['image']['mime_type'] . '">';
+
 				$out .= '<img ' . $img_class . 'src="' . esc_url( $source['desktop']['image']['url'] ) . '" alt="' . esc_attr( $source['desktop']['image']['alt'] ) . '" />';
 			}
 			$out .= '</picture>';
