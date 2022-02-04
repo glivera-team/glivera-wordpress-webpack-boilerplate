@@ -117,7 +117,7 @@ if( function_exists('acf_add_options_page') ) {
 }
 
 /**
- * Add viewport metateg
+ * Add viewport meta tag
  */
 
 function set_viewport() {
