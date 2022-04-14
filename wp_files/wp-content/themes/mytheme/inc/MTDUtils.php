@@ -66,7 +66,7 @@ class MTDUtils {
 	 * @return false
 	 * @since 2022-01-24
 	 */
-	static function icon( $icon_name, $icon_mod = null ) {
+	static function the_icon( $icon_name, $icon_mod = null ) {
 		if ( $icon_name ) {
 			$out     = '';
 			$classes = ( ! $icon_mod ) ? 'icon icon-' . $icon_name : 'icon icon-' . $icon_name . ' ' . $icon_mod;
