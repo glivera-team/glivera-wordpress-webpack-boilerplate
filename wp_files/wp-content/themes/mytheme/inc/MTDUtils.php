@@ -106,16 +106,46 @@ class MTDUtils {
 		$array_menus = wp_get_nav_menu_items( $menus_locs[$menu_name] );
 		$menu = array();
 
-		foreach ( $array_menus as $array_menu ) {
-			if ( empty( $array_menu->menu_item_parent ) ) {
-				$current_id = $array_menu->ID;
-				$menu[] = array(
-					'id'    => $current_id,
-					'title' => $array_menu->title,
-					'url'   => $array_menu->url
-				);
+		if ( $menus_locs && $array_menus ) {
+			foreach ( $array_menus as $key => $array_menu ) {
+				if ( empty( $array_menu->menu_item_parent ) ) {
+					$current_id = $array_menu->ID;
+					// image for submenu (optional)
+					$picture = get_field( 'submenu_image', $current_id );
+					$menu[$current_id] = array(
+						'id'         => $current_id,
+						'obj_id'     => get_post_meta( $array_menu->ID, '_menu_item_object_id', true ),
+						'menu_order' => $array_menu->menu_order,
+						'item_title' => $array_menu->title,
+						'item_url'   => $array_menu->url,
+						'sub_menu'   => array(),
+						'picture'    => $picture
+					);
+				}
+
+				if ( isset( $current_id ) && $current_id == $array_menu->menu_item_parent ) {
+					$submenu_id = $array_menu->ID;
+					$menu[$current_id]['sub_menu'][$array_menu->ID] = array(
+						'id'         => $submenu_id,
+						'obj_id'     => get_post_meta( $array_menu->ID, '_menu_item_object_id', true ),
+						'menu_order' => $array_menu->menu_order,
+						'item_title' => $array_menu->title,
+						'item_url'   => $array_menu->url,
+						'sub_menu'   => array()
+					);
+				}
+
+				if ( isset( $submenu_id ) && $submenu_id == $array_menu->menu_item_parent ) {
+					$menu[ $current_id ]['sub_menu'][ $submenu_id ]['sub_menu'][ $array_menu->ID ] = array(
+						'id'         => $array_menu->ID,
+						'menu_order' => $array_menu->menu_order,
+						'item_title' => $array_menu->title,
+						'item_url'   => $array_menu->url,
+					);
+				}
 			}
 		}
+
 
 		return $menu;
 	}
