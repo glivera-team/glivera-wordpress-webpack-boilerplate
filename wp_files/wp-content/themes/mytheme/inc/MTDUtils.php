@@ -192,7 +192,7 @@ class MTDUtils {
 			if ( ! empty( $source['desktop']['image'] ) ) {
 				true == $source['toggle'] ?: $out .= '<source ' . $desktop_media . ' srcset="' . esc_url( $source['desktop']['image']['url'] ) . '" type="' . $source['desktop']['image']['mime_type'] . '">';
 
-				$out .= '<img ' . $img_class . 'src="' . esc_url( $source['desktop']['image']['url'] ) . '" alt="' . esc_attr( $source['desktop']['image']['alt'] ) . '" />';
+				$out .= '<img ' . $img_class . ' src="' . esc_url( $source['desktop']['image']['url'] ) . '" alt="' . esc_attr( $source['desktop']['image']['alt'] ) . '" />';
 			}
 			$out .= '</picture>';
 
